@@ -141,7 +141,7 @@ services:
     environment:
       RACK_ENV: production
       PORT: 8080
-      DATABASE_URL: "Server=sqlserver,1433;Database=VolunteerHub;User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=true;Encrypt=false"
+      ConnectionStrings__ConnectedDb: "Server=sqlserver,1433;Database=VolunteerHub;User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=true;Encrypt=false;MultipleActiveResultSets=true"
       JWT_SECRET: ${JWT_SECRET}
     depends_on:
       sqlserver: { condition: service_healthy }

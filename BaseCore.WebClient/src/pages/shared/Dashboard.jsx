@@ -102,7 +102,6 @@ function DashboardLegacy({ user, isOrganizer, isSponsor, isAdmin }) {
           <i className="fa-solid fa-calendar-days" />
           Xem sự kiện
         </Link>
-        orrg
       </div>
 
       {isOrganizer() && data && (
