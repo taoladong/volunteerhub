@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "@locator/babel-jsx": "^0.5.1"
+  }
+}
