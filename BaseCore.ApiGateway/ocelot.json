@@ -14,7 +14,7 @@
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 5005 }],
       "UpstreamPathTemplate": "/api/reports",
       "UpstreamHttpMethod": ["GET", "OPTIONS"],
-      "Priority": 195
+      "Priority": 196
     },
 
     {

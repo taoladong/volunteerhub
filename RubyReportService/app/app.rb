@@ -10,7 +10,7 @@ module VolunteerHub
     class App < Sinatra::Base
       configure do
         set :bind, "0.0.0.0"
-        set :port, ENV.fetch("PORT", "8080")
+        set :port, ENV.fetch("PORT", "5005")
         set :show_exceptions, false
       end
 

@@ -32,13 +32,24 @@ http://localhost:5000/api/reports/events.csv
 ```bash
 cd RubyReportService
 bundle install
-set ConnectionStrings__ConnectedDb=Server=localhost,1433;Database=VolunteerHub;User Id=sa;Password=your_password;TrustServerCertificate=true;Encrypt=false
+set ConnectionStrings__ConnectedDb=Server=localhost,1433;Database=VolunteerHub;User Id=volunteerhub_report;Password=YourStrongPassword123!;TrustServerCertificate=true;Encrypt=false
 set JWT_SECRET=your_jwt_secret
 set PORT=5005
 bundle exec puma -C config/puma.rb
 ```
 
-RubyReportService dung TinyTDS nen can SQL Server TCP va SQL auth. Connection string LocalDB trong appsettings cua cac .NET service khong dung truc tiep cho Ruby duoc; hay doi sang `Server=localhost,1433` hoac `Server=sqlserver,1433`.
+RubyReportService dung TinyTDS nen can SQL Server TCP va SQL auth. Connection string LocalDB hoac named instance `OHMYGOD\HOSYVINH` trong appsettings cua cac .NET service khong dung truc tiep cho Ruby duoc; hay dung endpoint TCP `Server=localhost,1433`.
+
+SQL login local goi y:
+
+```sql
+USE master;
+CREATE LOGIN volunteerhub_report WITH PASSWORD = 'YourStrongPassword123!';
+
+USE VolunteerHub;
+CREATE USER volunteerhub_report FOR LOGIN volunteerhub_report;
+ALTER ROLE db_datareader ADD MEMBER volunteerhub_report;
+```
 
 ## Docker
 

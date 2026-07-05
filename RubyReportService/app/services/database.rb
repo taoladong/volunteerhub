@@ -36,7 +36,7 @@ module VolunteerHub
           password = option(config, "password", "pwd")
 
           if username.to_s.empty? && enabled?(option(config, "integrated security", "trusted_connection", "trusted connection"))
-            raise ArgumentError, "RubyReportService uses TinyTDS and needs SQL auth over TCP. Set ConnectionStrings__ConnectedDb to Server=localhost,1433;Database=VolunteerHub;User Id=sa;Password=your_password;TrustServerCertificate=true;Encrypt=false"
+            raise ArgumentError, "RubyReportService uses TinyTDS and needs SQL auth over TCP. Set ConnectionStrings__ConnectedDb to Server=localhost,1433;Database=VolunteerHub;User Id=volunteerhub_report;Password=YourStrongPassword123!;TrustServerCertificate=true;Encrypt=false"
           end
 
           {
@@ -62,7 +62,7 @@ module VolunteerHub
         end
 
         def default_connection_string
-          "Server=localhost,1433;Database=VolunteerHub;User Id=sa;Password="
+          "Server=localhost,1433;Database=VolunteerHub;User Id=volunteerhub_report;Password=YourStrongPassword123!;TrustServerCertificate=true;Encrypt=false"
         end
 
         def parse_connection_string(value)
