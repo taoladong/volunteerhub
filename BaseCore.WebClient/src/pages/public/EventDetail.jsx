@@ -178,11 +178,9 @@ export default function EventDetail() {
         sponsorApi.getByEvent(id).catch(() => ({ data: [] })),
         eventApi.getImpact(id).catch(() => ({ data: null })),
         supportCampaignApi.getByEvent(id).catch(() => ({ data: [] })),
-        ratingApi
-          .getByEvent(id)
-          .catch(() => ({
-            data: { ratings: [], averageScore: 0, totalRatings: 0 },
-          })),
+        ratingApi.getByEvent(id).catch(() => ({
+          data: { ratings: [], averageScore: 0, totalRatings: 0 },
+        })),
       ];
 
       if (isAuthenticated && isVolunteer()) {

@@ -273,6 +273,14 @@ export const adminRoutes = [
     ),
   },
   {
+    path: "/admin/ruby-reports",
+    element: (
+      <AppPage roles={["Admin"]}>
+        <Page.AdminRubyReports />
+      </AppPage>
+    ),
+  },
+  {
     path: "/admin/export",
     element: (
       <AppPage roles={["Admin"]}>

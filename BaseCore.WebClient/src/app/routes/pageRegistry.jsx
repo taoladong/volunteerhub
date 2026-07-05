@@ -46,5 +46,8 @@ export const AdminRatings = lazy(() => import("../../pages/admin/AdminRatings"))
 export const AdminFinanceWatch = lazy(
   () => import("../../pages/admin/AdminFinanceWatch"),
 );
+export const AdminRubyReports = lazy(
+  () => import("../../pages/admin/AdminRubyReports"),
+);
 export const AdminExport = lazy(() => import("../../pages/admin/AdminExport"));
 export const AdminMonitoring = lazy(() => import("../../pages/admin/AdminMonitoring"));

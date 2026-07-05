@@ -34,6 +34,7 @@ export const ROLE_NAV = {
     { to: '/admin/catalog', icon: 'fa-sliders', label: 'Danh mục hệ thống' },
     { to: '/admin/finance', icon: 'fa-sack-dollar', label: 'Đối soát tài chính' },
     { to: '/admin/monitoring', icon: 'fa-shield-halved', label: 'Giám sát hệ thống' },
+    { to: '/admin/ruby-reports', icon: 'fa-gem', label: 'Báo cáo Ruby' },
     { to: '/admin/export', icon: 'fa-file-export', label: 'Xuất dữ liệu' },
     { to: '/notifications', icon: 'fa-bell', label: 'Thông báo' },
   ],

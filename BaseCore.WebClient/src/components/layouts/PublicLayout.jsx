@@ -296,6 +296,8 @@ export default function PublicLayout({ children }) {
                             >
                               {ROLE_LABEL[user?.role] || user?.role}
                             </span>
+                          </div>
+                          <div className="flex items-center gap-1.5 mt-0.5 min-w-0">
                             {user?.email && (
                               <span
                                 className="text-[11px] truncate min-w-0 flex-1"
@@ -423,6 +425,7 @@ export default function PublicLayout({ children }) {
                   </Link>
                 </>
               )}
+
               <button
                 className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg"
                 style={{
