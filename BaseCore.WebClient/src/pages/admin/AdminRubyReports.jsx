@@ -42,6 +42,15 @@ async function extractErrorMessage(error, fallback) {
     }
   }
 
+  if (typeof data === "string") {
+    try {
+      const parsed = JSON.parse(data);
+      return parsed?.detail || parsed?.message || data || fallback;
+    } catch {
+      return data || error?.message || fallback;
+    }
+  }
+
   return data?.detail || data?.message || error?.message || fallback;
 }
 
@@ -76,21 +85,6 @@ function StatTile({ label, value, icon, tone = "text-primary-600" }) {
   );
 }
 
-function EndpointRow({ method, path, auth, note }) {
-  return (
-    <tr className="odd:bg-surface-2/50">
-      <td className="px-4 py-3">
-        <span className="rounded bg-blue-50 px-2 py-1 font-mono text-xs font-semibold text-blue-700">
-          {method}
-        </span>
-      </td>
-      <td className="px-4 py-3 font-mono text-xs text-warmink">{path}</td>
-      <td className="px-4 py-3 text-sm text-warmink-2">{auth}</td>
-      <td className="px-4 py-3 text-sm text-warmink-2">{note}</td>
-    </tr>
-  );
-}
-
 export default function AdminRubyReports() {
   const [health, setHealth] = useState(null);
   const [ready, setReady] = useState(null);
@@ -104,10 +98,6 @@ export default function AdminRubyReports() {
   const [lastDownload, setLastDownload] = useState(null);
 
   const totals = summary?.totals || {};
-  const generatedAt = useMemo(
-    () => formatDateTime(summary?.generatedAt),
-    [summary?.generatedAt],
-  );
 
   const loadReports = async ({ quiet = false } = {}) => {
     if (quiet) {
@@ -189,14 +179,6 @@ export default function AdminRubyReports() {
 
   if (loading) return <LoadingSpinner />;
 
-  const endpointRows = catalog?.endpoints?.length
-    ? catalog.endpoints
-    : [
-        "/api/reports/summary",
-        "/api/reports/events.csv",
-        "/api/reports/donations.csv",
-      ];
-
   return (
     <div className="space-y-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -234,23 +216,21 @@ export default function AdminRubyReports() {
             <div>
               <h2 className="font-semibold text-warmink">Trạng thái service</h2>
             </div>
-            <StatusPill status={health?.status} detail={health?.detail} />
+            <StatusPill status={health?.status} detail={health?.service} />
           </div>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <div className="rounded-lg border border-warmborder bg-surface-2 p-3">
               <p className="text-xs font-semibold uppercase tracking-wide text-warmink-3">
                 Health
               </p>
-              <p className="mt-1 font-medium text-warmink">
-                {health?.service || "RubyReportService"}
-              </p>
+              <p className="mt-1 font-medium text-warmink">{health?.status}</p>
             </div>
             <div className="rounded-lg border border-warmborder bg-surface-2 p-3">
               <p className="text-xs font-semibold uppercase tracking-wide text-warmink-3">
                 Ready
               </p>
               <div className="mt-1">
-                <StatusPill status={ready?.status} detail={ready?.detail} />
+                <StatusPill status={ready?.status} detail={ready?.service} />
               </div>
             </div>
           </div>

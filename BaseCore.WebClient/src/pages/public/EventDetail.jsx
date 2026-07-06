@@ -480,7 +480,7 @@ export default function EventDetail() {
       ? Math.round((event.currentParticipants / event.maxParticipants) * 100)
       : 0;
   const activeRegistration =
-    myRegistration?.status === "Cancelled" ? null : myRegistration;
+    myRegistration?.status === "Cancelled" ? false : myRegistration;
   const canAccessEventChannel =
     Boolean(event.channel?.id) &&
     isAuthenticated &&
@@ -1865,8 +1865,7 @@ export default function EventDetail() {
                   {registering && (
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   )}
-                  <i className="fa-solid fa-hand-holding-heart" /> Đăng ký tham
-                  gia
+                  Đăng ký tham gia
                 </button>
               </>
             )}

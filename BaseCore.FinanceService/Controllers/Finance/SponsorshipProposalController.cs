@@ -172,7 +172,8 @@ namespace BaseCore.APIService.Controllers
 
         [HttpPut("api/sponsorship-proposals/{proposalId}/accept"), Authorize(Roles = "Organizer,Sponsor,Admin")]
         [EnableRateLimiting("write-sensitive")]
-        public Task<IActionResult> Accept(int proposalId, [FromBody] ProposalResponseDto dto) => Respond(proposalId, "Accepted", dto?.ResponseMessage);
+        public Task<IActionResult> Accept(int proposalId, [FromBody] ProposalResponseDto dto) 
+        => Respond(proposalId, "Accepted", dto?.ResponseMessage);
 
         [HttpPut("api/sponsorship-proposals/{proposalId}/reject"), Authorize(Roles = "Organizer,Sponsor,Admin")]
         [EnableRateLimiting("write-sensitive")]

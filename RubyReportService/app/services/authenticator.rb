@@ -7,6 +7,16 @@ module VolunteerHub
 
     class Authenticator
       ROLE_CLAIM = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+      LEGACY_ROLE_CLAIM = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role"
+      ROLE_CLAIM_KEYS = [
+        "role",
+        "roles",
+        "Role",
+        "Roles",
+        ROLE_CLAIM,
+        LEGACY_ROLE_CLAIM
+      ].freeze
+      ADMIN_ROLE_VALUES = %w[admin administrator].freeze
       DEFAULT_SECRET = "YourSecretKeyForAuthenticationShouldBeLongEnough"
 
       def initialize(authorization_header)
@@ -17,9 +27,10 @@ module VolunteerHub
         payload = decode_token
         roles = extract_roles(payload)
 
-        return payload if roles.any? { |role| role.casecmp("Admin").zero? }
+        return payload if admin_payload?(payload, roles)
 
-        raise Forbidden, "Admin role is required"
+        found_roles = roles.empty? ? "none" : roles.join(", ")
+        raise Forbidden, "Admin role is required. Found roles: #{found_roles}. Please log out and log in again."
       end
 
       private
@@ -45,13 +56,36 @@ module VolunteerHub
       end
 
       def extract_roles(payload)
-        values = [
-          payload["role"],
-          payload["roles"],
-          payload[ROLE_CLAIM]
-        ].flatten.compact
+        values = ROLE_CLAIM_KEYS
+          .flat_map { |key| Array(payload[key]) }
+          .compact
 
-        values.flat_map { |value| value.to_s.split(/[,\s]+/) }.reject(&:empty?)
+        values
+          .flat_map { |value| role_values(value) }
+          .map(&:strip)
+          .reject(&:empty?)
+      end
+
+      def role_values(value)
+        case value
+        when Array
+          value.flat_map { |item| role_values(item) }
+        when Hash
+          value.values.flat_map { |item| role_values(item) }
+        else
+          value.to_s.split(/[,\s]+/)
+        end
+      end
+
+      def admin_payload?(payload, roles)
+        return true if roles.any? { |role| admin_role?(role) }
+
+        user_type = payload["userType"] || payload["UserType"] || payload["user_type"]
+        user_type.to_s == "3"
+      end
+
+      def admin_role?(role)
+        ADMIN_ROLE_VALUES.include?(role.to_s.strip.downcase)
       end
     end
   end
